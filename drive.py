@@ -5,9 +5,15 @@ import requests
 @route('/teste')
 @post()
 def teste():
-    nome=request.forms.get('nome');
-    return template('<b> teste do {{name.nome}} </b>',name=json.loads(data))
-
+    stream=request.body;
+    data=stream.read()
+    print("input %s" % (data))
+    data=json.loads(data)
+    response=''
+    for item in data.items():
+        response+="%s : %s\n" % item
+    print (response)
+    return response
 @route('/teste/<nome>')
 @get()
 def teste(nome):
