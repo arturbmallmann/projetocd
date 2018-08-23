@@ -1,0 +1,4 @@
+Execute assim:
+chmod a+x *.py
+./cliente.py
+./drive.py
