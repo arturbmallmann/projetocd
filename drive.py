@@ -2,6 +2,20 @@
 from bottle import route, run, template,post,get,request
 import json
 import requests
+
+root=dict()
+
+@route('/root/<item>')
+@get()
+def getTree(*item):
+    return json.dumps(root.get(item))
+
+@route('/root/')
+@post()
+def newItem():
+    data=request.body.read()
+    root.update(json.loads(data))
+    
 @route('/teste')
 @post()
 def teste():
@@ -10,6 +24,7 @@ def teste():
     print("input %s" % (data))
     data=json.loads(data)
     response=''
+
     for item in data.items():
         response+="%s : %s\n" % item
     print (response)

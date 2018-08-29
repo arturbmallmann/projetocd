@@ -6,17 +6,20 @@ args=sys.argv
 domain='http://127.0.0.1'
 porta='8080'
 def main():
+    history=[]
     while(True):
         res=input()
         res=res.split(' ')
         tup=tuple(res[1:])
+        print(tup,file=sys.stderr)
         if(res[0]=="quit"):
             return
         try:
             answer=commands[res[0]](*tup)
             print(answer.text)
         except:
-            print ("comando indisponível")
+            print ("comando indisponível",file=sys.stderr)
+
             
 def create(uri,content):
     url=(domain,porta,uri)
