@@ -2,3 +2,8 @@ Execute assim:
 chmod a+x *.py
 ./cliente.py
 ./drive.py
+
+comandos são disparados pelo cliente:
+comandos funcionais:
+new teste {json(qualquer coisa mesmo)}
+list teste string
