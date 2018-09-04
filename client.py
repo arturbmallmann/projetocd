@@ -15,15 +15,21 @@ def main():
         if(res[0]=="quit"):
             return
         try:
-            answer=commands[res[0]](*tup)
+            method=commands[res[0]]
+            answer=method(*tup)
+#            print ("passou")
             print(answer.text)
+#        except JSONDecodeError:
+#            print ("resposta incorreta")
         except:
-            print ("comando indisponível",file=sys.stderr)
+            print ("comando indisponível")#,file=sys.stderr)
 
-            
+# new/create recurso {"conteúdo":"hehe"}            
 def create(uri,content):
     url=(domain,porta,uri)
     return requests.post("%s:%s/%s" % url,content)
+# list recurso
+# new raiz {"id":1,"nome":"artur"}
 
 def list(uri):
     print(uri)
