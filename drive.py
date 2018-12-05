@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 from bottle import route, run, template,post,get,request
 import json
-import requests
+import myRequests
 import os
+import threading
 
 root=dict()
 servers=list()
@@ -40,11 +41,17 @@ def servers():
 def teste(nome):
     return template('<b> teste do {{name}} </b>',name=nome)
 
+def testOthers():
+    for the in servers:
+        url=the.split(':')
+        myRequests.list(url[0],url[1],'servers')
 
 def main():
     run(host = 'localhost', port=8080)
 
 if __name__=='__main__':
     servers = os.environ["SERVERS"].split(',') if "SERVERS" in os.environ else False
+    t=threading.thread(testOthers)    
+    t.run()
     main()
     print (servers)
