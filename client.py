@@ -3,10 +3,19 @@ import sys
 import requests
 import re #regex
 import myRequests
+from os import environ
+
 args=sys.argv
 
-domain='http://127.0.0.1'
-porta='8080'
+#domain='http://127.0.0.1'
+#porta='8080'
+
+servers=environ['SERVERS'].spli(',') if "SERVERS" in environ else False
+def getServer():
+	for s in servers:
+		try:
+			myRequest.list(
+		
 def main():
     history=[]
 	regex0=re.compile(r"([A-Za-z]* ){1,}({.*})")

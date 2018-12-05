@@ -2,8 +2,10 @@
 from bottle import route, run, template,post,get,request
 import json
 import myRequests
-import os
-import threading
+from os import environ #para as variáveis locais
+import threading 
+#import sys #para argumentos
+from time import sleep
 
 root=dict()
 servers=list()
@@ -42,16 +44,27 @@ def teste(nome):
     return template('<b> teste do {{name}} </b>',name=nome)
 
 def testOthers():
-    for the in servers:
-        url=the.split(':')
-        myRequests.list(url[0],url[1],'servers')
+	print("outros?")
+	while(True):
+		sleep(1)
+		for the in servers:
+			url=the.split(':')
+			myRequests.list( (url[0],url[1],"servers") )
 
 def main():
-    run(host = 'localhost', port=8080)
-
+	port=8080
+	teste=True
+	while(teste):
+		try:
+			teste=False
+			run(host = 'localhost', port=port)
+		except:
+			port+=1
+			teste=True
+		
 if __name__=='__main__':
-    servers = os.environ["SERVERS"].split(',') if "SERVERS" in os.environ else False
-    t=threading.thread(testOthers)    
-    t.run()
-    main()
-    print (servers)
+	servers = environ["SERVERS"].split(',') if "SERVERS" in environ else False
+	t=threading.Thread(target=testOthers)
+	t.run()
+	main()
+	print (servers)
