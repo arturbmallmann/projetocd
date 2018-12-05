@@ -35,36 +35,59 @@ def getTree(item):
 @route('/servers')
 @get()
 def servers():
+    print(servers)
     resp = json.dumps(servers)
     return resp
 
+@route('/servers/<item>')
+@post()
+def add_servers():
+    data = set(json.load(request.body))
+    new = data + set(servers)
+    print(new)
+    #todo
 @route('/<nome>')
 @get()
 def teste(nome):
     return template('<b> teste do {{name}} </b>',name=nome)
 
 def testOthers():
-	print("outros?")
-	while(True):
-		sleep(1)
-		for the in servers:
-			url=the.split(':')
-			myRequests.list( (url[0],url[1],"servers") )
-
+    print("outros?")
+    if (servers == False):
+        return
+    while(True):
+        sleep(1)
+        for the in servers[1:]:
+         #   if (not the):
+            try:
+                myRequests.list( *(the[0],the[1],"servers") )
+                print("Fez o request para {}".format(the))
+            except:
+                pass
+this=False
 def main():
-	port=8080
-	teste=True
-	while(teste):
-		try:
-			teste=False
-			run(host = 'localhost', port=port)
-		except:
-			port+=1
-			teste=True
-		
+    port=8080
+    this=False
+    print("vem")
+    while(not this):
+        try:
+            this=["localhost",str(port)]
+            run(host=this[0],port=this[1])
+        except:
+            port+=1
+            this=False
+            print("ups")
+        
 if __name__=='__main__':
-	servers = environ["SERVERS"].split(',') if "SERVERS" in environ else False
-	t=threading.Thread(target=testOthers)
-	t.run()
-	main()
-	print (servers)
+    servers = environ["SERVERS"].split(',') if "SERVERS" in environ else False
+    servers = [s.split(':') for s in servers]
+    print (servers)
+    t=threading.Thread(target=testOthers)
+ #   m=threading.Thread(target=main)
+  #  m.start()
+   # m.join()
+    t.start()
+    #t.join()
+    main()
+   # main()
+    print (servers)
