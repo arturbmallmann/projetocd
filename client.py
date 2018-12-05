@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 import sys
 import requests
+import re #regex
 args=sys.argv
 
 domain='http://127.0.0.1'
 porta='8080'
 def main():
     history=[]
+	regex0=re.compile(r"([A-Za-z]* ){1,}({.*})")
     while(True):
         res=input()
         res=res.split(' ')
